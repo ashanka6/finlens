@@ -1,0 +1,29 @@
+{
+  "name": "finlens",
+  "version": "1.0.0",
+  "description": "FinLens application to analyze stocks ",
+  "homepage": "https://github.com/ashanka6/finlens#readme",
+  "bugs": {
+    "url": "https://github.com/ashanka6/finlens/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashanka6/finlens.git"
+  },
+  "license": "ISC",
+  "author": "Aparna Shankar",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon -e '*'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.105.4",
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14"
+  }
+}
