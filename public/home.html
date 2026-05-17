@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinLens | Home</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="page-header">
+        <div class="site-title">FinLens</div>
+        <nav class="site-nav">
+          <a href="home.html" class="nav-link active">Home</a>
+          <a href="stocks.html" class="nav-link">Company Data</a>
+          <a href="about.html" class="nav-link">About FinLens</a>
+          <a href="help.html" class="nav-link">Help</a>
+        </nav>
+      </header>
+
+      <main class="page-content simple-page">
+        <section class="simple-card home-card">
+          <h1 class="page-title">FinLens</h1>
+          <div class="input-row">
+            <label for="tickerInput">Enter a Company Ticker (Ex. GOOGL, MSFT):</label>
+            <input id="tickerInput" type="text" placeholder="GOOGL" />
+            <button type="button" class="primary-button" onclick="goToCompanyData()">Analyze</button>
+          </div>
+
+          <div class="text-section">
+            <h2>How to use this website:</h2>
+            <ol>
+              <li>Enter the company ticker.</li>
+              <li>Click “Analyze” for visualized financial data and key insights.</li>
+              <li>See results in the Company Data section.</li>
+            </ol>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      function goToCompanyData() {
+        const ticker = document.getElementById('tickerInput').value.trim();
+        if (!ticker) {
+          alert('Please enter a company ticker.');
+          return;
+        }
+        window.location.href = `stocks.html?ticker=${encodeURIComponent(ticker.toUpperCase())}`;
+      }
+    </script>
+  </body>
+</html>

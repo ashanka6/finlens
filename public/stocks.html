@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinLens | Company Data</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="page-header">
+        <div class="site-title">FinLens</div>
+        <nav class="site-nav">
+          <a href="home.html" class="nav-link">Home</a>
+          <a href="stocks.html" class="nav-link active">Company Data</a>
+          <a href="about.html" class="nav-link">About FinLens</a>
+          <a href="help.html" class="nav-link">Help</a>
+        </nav>
+      </header>
+
+      <main class="page-content">
+        <section class="query-panel section-card">
+          <div class="ticker-panel">
+            <label for="tickerInput" class="ticker-label">Enter a Company Ticker (Ex. GOOGL, MSFT):</label>
+            <div class="ticker-input-row">
+              <input id="tickerInput" name="ticker" type="text" placeholder="GOOGL" class="ticker-input" />
+              <button id="loadButton" type="button" class="primary-button">Analyze</button>
+            </div>
+            <p class="page-caption">You can also land here with a ticker query like <code>?ticker=GOOGL</code>.</p>
+          </div>
+        </section>
+
+        <section id="feedbackArea" class="feedback-area hidden"></section>
+
+        <section class="results-grid">
+          <div class="summary-card section-card">
+            <div class="card-header">
+              <h2>Company Summary</h2>
+            </div>
+            <div id="summaryContent" class="card-body">
+              <p class="muted">Search for a ticker to display the latest financial summary.</p>
+            </div>
+          </div>
+
+          <div id="metricsCard" class="section-card">
+            <div class="card-header">
+              <h2>Key Metrics</h2>
+            </div>
+            <div id="metricsContent" class="card-body">
+              <p class="muted">Metrics appear here once the ticker is loaded.</p>
+            </div>
+          </div>
+
+          <div id="incomeCard" class="section-card">
+            <div class="card-header">
+              <h2>Income Statement</h2>
+            </div>
+            <div id="incomeContent" class="card-body"></div>
+          </div>
+
+          <div id="balanceCard" class="section-card">
+            <div class="card-header">
+              <h2>Balance Sheet</h2>
+            </div>
+            <div id="balanceContent" class="card-body"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="stocks.js"></script>
+  </body>
+</html>

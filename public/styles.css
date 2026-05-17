@@ -1,0 +1,269 @@
+:root {
+  color-scheme: light;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #d8ff9e;
+  color: #0e2f0d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #d8ff9e 0%, #d1f189 45%, #c9e56e 100%);
+}
+
+.page-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page-header {
+  width: 100%;
+  background-color: #4d8b00;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.site-title {
+  color: #ffffff;
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.nav-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.65rem 1rem;
+  border-radius: 999px;
+  transition: background-color 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.page-content {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.simple-page {
+  display: flex;
+  justify-content: center;
+}
+
+.simple-card {
+  width: min(100%, 900px);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: 0 22px 40px rgba(0, 0, 0, 0.12);
+}
+
+.page-title {
+  margin: 0 0 1.5rem;
+  font-size: clamp(2rem, 4vw, 3rem);
+  text-align: center;
+}
+
+.text-section {
+  margin-top: 1.5rem;
+  line-height: 1.75;
+}
+
+.text-section h2 {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.text-section ol,
+.text-section p {
+  margin: 0;
+  color: #1f3414;
+}
+
+.input-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-row label {
+  width: 100%;
+  max-width: 300px;
+  font-weight: 700;
+}
+
+.input-row input {
+  flex: 1;
+  min-width: 160px;
+  padding: 0.9rem 1rem;
+  border-radius: 999px;
+  border: 2px solid #3c7a00;
+  outline: none;
+  font-size: 1rem;
+}
+
+.primary-button {
+  background-color: #151db1;
+  color: #ffffff;
+  border: none;
+  padding: 0.95rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.primary-button:hover {
+  background-color: #0f147d;
+  transform: translateY(-1px);
+}
+
+.page-caption {
+  margin-top: 1rem;
+  color: #1f3414;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.query-panel {
+  margin-bottom: 1.5rem;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.summary-card {
+  grid-column: span 2;
+}
+
+.section-card {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 1.5rem 1.75rem;
+  background-color: #f0ffcc;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.card-body {
+  padding: 1.5rem 1.75rem;
+}
+
+.feedback-area {
+  width: min(100%, 900px);
+  margin: 0 auto 1rem;
+  padding: 0.95rem 1.25rem;
+  border-radius: 16px;
+  font-weight: 700;
+}
+
+.feedback-area.hidden {
+  display: none;
+}
+
+.feedback-area.error {
+  background-color: rgba(255, 224, 224, 0.95);
+  color: #941515;
+  border: 1px solid rgba(148, 21, 21, 0.2);
+}
+
+.feedback-area.success {
+  background-color: rgba(221, 255, 219, 0.95);
+  color: #1d6a21;
+  border: 1px solid rgba(29, 106, 33, 0.2);
+}
+
+.muted {
+  color: #4d5a38;
+  line-height: 1.7;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+  text-align: left;
+  padding: 0.9rem 0.85rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.data-table th {
+  color: #1c3415;
+  font-weight: 700;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+@media (min-width: 768px) {
+  .query-panel {
+    padding: 1.5rem 2rem;
+  }
+}
+
+@media (max-width: 920px) {
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .page-header {
+    padding: 1rem 1rem;
+  }
+
+  .simple-card {
+    padding: 1.5rem;
+  }
+
+  .input-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .primary-button {
+    width: 100%;
+  }
+}
