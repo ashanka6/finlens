@@ -322,4 +322,4 @@ function init() {
   loadWatchlist(userId);
 }
 
-window.addEventListener('DOMContentLoaded', init);
+window.addEventListener('DOMContentLoaded', init); 
