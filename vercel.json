@@ -1,69 +1,11 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "./index.js",
-      "use": "@vercel/node"
-    }
+    { "src": "index.js", "use": "@vercel/node" }
   ],
   "routes": [
-    {
-      "src": "/",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/home.html",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/stocks.html",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/about.html",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/help.html",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/styles.css",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/stocks.js",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/api/v3/financials/:ticker",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/api/v3/quote/:ticker",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/api/v3/watchlist/:userId",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/api/v3/watchlist",
-      "methods": ["POST"],
-      "dest": "/index.js"
-    },
-    {
-      "src": "/api/v3/watchlist/:entryId",
-      "methods": ["DELETE"],
-      "dest": "/index.js"
-    },
-    {
-      "src": "/api/v3/notes/:userId/:ticker",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/api/v3/health",
-      "dest": "/index.js"
-    }
+    { "src": "/api/(.*)", "dest": "/index.js" },
+    { "src": "/public/(.*)", "dest": "/public/$1" },
+    { "src": "/", "dest": "/public/home.html" }
   ]
 }
