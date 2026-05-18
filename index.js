@@ -19,7 +19,7 @@ const supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
 
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(express(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
   res.sendFile('public/home.html', { root: __dirname });

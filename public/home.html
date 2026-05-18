@@ -61,7 +61,7 @@
       async function loadMarketSnapshot() {
         const content = document.getElementById('marketSnapshotContent');
         try {
-          const response = await fetch('/api/quote/AAPL', {
+          const response = await fetch('/api/v3/quote/AAPL', {
             headers: { Accept: 'application/json' },
           });
           const data = await response.json();

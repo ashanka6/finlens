@@ -188,7 +188,7 @@ async function loadFinancials(ticker) {
   balanceContent.innerHTML = '';
 
   try {
-    const response = await fetch(`/api/financials/${encodeURIComponent(ticker)}`, {
+    const response = await fetch(`/api/v3/financials/${encodeURIComponent(ticker)}`, {
       mode: 'cors',
       headers: { Accept: 'application/json' },
     });
@@ -218,7 +218,7 @@ async function loadWatchlist(userId) {
   if (!userId) return;
 
   try {
-    const response = await fetch(`/api/watchlist/${encodeURIComponent(userId)}`, {
+    const response = await fetch(`/api/v3/watchlist/${encodeURIComponent(userId)}`, {
       headers: { Accept: 'application/json' },
     });
     const data = await response.json();
@@ -301,7 +301,7 @@ function init() {
     const currentUserId = watchlistUserInput.value.trim() || 'demo-user';
 
     try {
-      const response = await fetch('/api/watchlist', {
+      const response = await fetch('/api/v3/watchlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_id: currentUserId, ticker }),
