@@ -57,30 +57,6 @@
         }
         window.location.href = `stocks.html?ticker=${encodeURIComponent(ticker.toUpperCase())}`;
       }
-
-      async function loadMarketSnapshot() {
-        const content = document.getElementById('marketSnapshotContent');
-        try {
-          const response = await fetch('/api/v3/quote/AAPL', {
-            headers: { Accept: 'application/json' },
-          });
-          const data = await response.json();
-          if (!response.ok) {
-            throw new Error(data?.error || 'Unable to load market snapshot');
-          }
-          const quote = data.quote || {};
-          content.innerHTML = `
-            <p><strong>${quote.symbol || 'AAPL'}</strong> — ${quote.name || 'Apple Inc.'}</p>
-            <p><strong>Price:</strong> $${quote.price?.toFixed(2) ?? 'N/A'}</p>
-            <p><strong>Change:</strong> ${quote.change?.toFixed(2) ?? 'N/A'} (${quote.changePercentage?.toFixed(2) ?? '0.00'}%)</p>
-            <p><strong>Exchange:</strong> ${quote.exchange || 'N/A'}</p>
-          `;
-        } catch (error) {
-          content.innerHTML = `<p class="muted">${error.message || 'Unable to load market snapshot.'}</p>`;
-        }
-      }
-
-      window.addEventListener('DOMContentLoaded', loadMarketSnapshot);
     </script>
   </body>
 </html>
