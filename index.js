@@ -147,5 +147,5 @@ app.get('/api/v3/notes/:userId/:ticker', async (req, res) => {
     res.json(data?.[0] || { notes: '' });
 });
 
-
+module.exports = app;
 
