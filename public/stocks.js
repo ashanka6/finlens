@@ -1,5 +1,7 @@
 const tickerInput = document.getElementById('tickerInput');
 const loadButton = document.getElementById('loadButton');
+const saveWatchlistButton = document.getElementById('saveWatchlistButton');
+const watchlistUserInput = document.getElementById('watchlistUserInput');
 const feedbackArea = document.getElementById('feedbackArea');
 const summaryContent = document.getElementById('summaryContent');
 const metricsContent = document.getElementById('metricsContent');
@@ -158,6 +160,32 @@ function init() {
     }
     history.replaceState(null, '', `stocks.html?ticker=${encodeURIComponent(ticker)}`);
     loadFinancials(ticker);
+  });
+
+  saveWatchlistButton.addEventListener('click', async () => {
+    const ticker = tickerInput.value.trim().toUpperCase();
+    if (!ticker) {
+      showMessage('Enter a ticker symbol before saving.');
+      return;
+    }
+    const userId = watchlistUserInput.value.trim() || 'demo-user';
+
+    try {
+      const response = await fetch('/api/watchlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId, ticker }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to save watchlist item.');
+      }
+
+      showMessage(`Saved ${ticker} to ${userId}'s watchlist.`, 'success');
+    } catch (error) {
+      showMessage(error.message || 'Unable to save watchlist item.');
+    }
   });
 }
 

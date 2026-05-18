@@ -1,22 +1,24 @@
 // index.js - FinLens Backend Server
-require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const { createClient } = require('@supabase/supabase-js');
-
+const bodyParser = require('body-parser');
+const fetch = require('node-fetch'); // For server-side API calls
 const app = express();
 const PORT = process.env.PORT || 5000;
 const dotenv = require('dotenv'); 
 dotenv.config();
 // ==================== Middleware ====================
 app.use(cors({ origin: true, credentials: true }));
-app.options('*', cors({ origin: true, credentials: true }));
+app.options('*', cors({ origin: true, credentials: true })); 
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.static(__dirname + '/public')); 
 
 app.get('/', (req, res) => {
-  res.sendFile('public', { root: __dirname });
-}); 
+  res.sendFile('public/home.html', { root: __dirname });
+});
 
 
 // ==================== Supabase Client ====================
@@ -40,13 +42,12 @@ const fetchFMP = async (endpoint) => {
 
 // ==================== Routes ====================
 
-// 1. Get financial data for a ticker (income statement, balance sheet, ratios)
+// 1. Get financial data for a ticker (external API) – unchanged
 app.get('/api/financials/:ticker', async (req, res) => {
     const { ticker } = req.params;
     const upperTicker = ticker.toUpperCase();
 
     try {
-        // Fetch all three data sets in parallel
         const [income, balance, ratios] = await Promise.all([
             fetchFMP(`/income-statement/${upperTicker}?limit=5`),
             fetchFMP(`/balance-sheet-statement/${upperTicker}?limit=5`),
@@ -65,32 +66,33 @@ app.get('/api/financials/:ticker', async (req, res) => {
     }
 });
 
-// 2. Get a user's portfolio (watchlist) from Supabase
-app.get('/api/portfolio/:userId', async (req, res) => {
+// 2. READ from Supabase: get a user's watchlist (tickers only)
+app.get('/api/watchlist/:userId', async (req, res) => {
     const { userId } = req.params;
 
     const { data, error } = await supabase
-        .from('portfolios')
-        .select('*')
+        .from('watchlists')     // your actual table name
+        .select('id, ticker')   // only select what you need
         .eq('user_id', userId);
 
     if (error) {
         return res.status(500).json({ error: error.message });
     }
-    res.json(data);
+    res.json(data); // returns [{ id, ticker }, ...]
 });
 
-// 3. Add a ticker to user's portfolio
-app.post('/api/portfolio', async (req, res) => {
-    const { user_id, ticker, notes } = req.body;
+// 3. WRITE to Supabase: add a ticker to user's watchlist
+app.post('/api/watchlist', async (req, res) => {
+    const { user_id, ticker } = req.body;
+    const userId = user_id || process.env.DEFAULT_USER_ID || 'demo-user';
 
-    if (!user_id || !ticker) {
+    if (!userId || !ticker) {
         return res.status(400).json({ error: 'user_id and ticker are required' });
     }
 
     const { data, error } = await supabase
-        .from('portfolios')
-        .insert([{ user_id, ticker: ticker.toUpperCase(), notes: notes || '' }])
+        .from('watchlists')
+        .insert([{ user_id: userId, ticker: ticker.toUpperCase() }])
         .select();
 
     if (error) {
@@ -99,12 +101,12 @@ app.post('/api/portfolio', async (req, res) => {
     res.status(201).json(data[0]);
 });
 
-// 4. Delete a ticker from portfolio
-app.delete('/api/portfolio/:entryId', async (req, res) => {
+// 4. (Optional) Delete a ticker from watchlist
+app.delete('/api/watchlist/:entryId', async (req, res) => {
     const { entryId } = req.params;
 
     const { error } = await supabase
-        .from('portfolios')
+        .from('watchlists')
         .delete()
         .eq('id', entryId);
 
@@ -114,26 +116,46 @@ app.delete('/api/portfolio/:entryId', async (req, res) => {
     res.status(204).send();
 });
 
-// 5. Update notes for a portfolio entry
-app.patch('/api/portfolio/:entryId', async (req, res) => {
-    const { entryId } = req.params;
-    const { notes } = req.body;
+// 5. (Optional) Get user notes for a ticker (from user_notes table)
+app.get('/api/notes/:userId/:ticker', async (req, res) => {
+    const { userId, ticker } = req.params;
 
     const { data, error } = await supabase
-        .from('portfolios')
-        .update({ notes, updated_at: new Date() })
-        .eq('id', entryId)
+        .from('user_notes')
+        .select('notes, created_at')
+        .eq('user_id', userId)
+        .eq('ticker', ticker.toUpperCase())
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+    res.json(data?.[0] || { notes: '' });
+});
+
+// 6. (Optional) Save/update user note
+app.post('/api/notes', async (req, res) => {
+    const { user_id, ticker, notes } = req.body;
+
+    if (!user_id || !ticker) {
+        return res.status(400).json({ error: 'user_id and ticker required' });
+    }
+
+    const { data, error } = await supabase
+        .from('user_notes')
+        .insert([{ user_id, ticker: ticker.toUpperCase(), notes: notes || '' }])
         .select();
 
     if (error) {
         return res.status(500).json({ error: error.message });
     }
-    res.json(data[0]);
+    res.status(201).json(data[0]);
 });
 
-// 6. Simple health check
+// 7. Health check
 app.get('/api/health', (req, res) => {
-    res.json({ status: 'FinLens backend is running' });
+    res.json({ status: 'FinLens backend running with watchlists & user_notes' });
 });
 
 // ==================== Start Server ====================

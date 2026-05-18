@@ -116,6 +116,41 @@ body {
   font-weight: 700;
 }
 
+.watchlist-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.watchlist-input {
+  min-width: 220px;
+  padding: 0.9rem 1rem;
+  border-radius: 999px;
+  border: 2px solid #3c7a00;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.secondary-button {
+  background-color: #3c5cdf;
+  color: #ffffff;
+  border: none;
+  padding: 0.95rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.secondary-button:hover {
+  background-color: #2f49b4;
+  transform: translateY(-1px);
+}
+
 .input-row input {
   flex: 1;
   min-width: 160px;
