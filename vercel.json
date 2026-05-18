@@ -8,6 +8,34 @@
   ],
   "routes": [
     {
+      "src": "/",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/home.html",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/stocks.html",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/about.html",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/help.html",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/styles.css",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/stocks.js",
+      "dest": "/index.js"
+    },
+    {
       "src": "/api/v3/financials/:ticker",
       "dest": "/index.js"
     },
@@ -36,10 +64,6 @@
     {
       "src": "/api/v3/health",
       "dest": "/index.js"
-    },
-    {
-      "src": "/",
-      "dest": "/home.html"
     }
   ]
 }
