@@ -55,6 +55,15 @@
             </div>
           </div>
 
+          <div id="chartCard" class="section-card">
+            <div class="card-header">
+              <h2>Revenue vs Net Income</h2>
+            </div>
+            <div class="card-body chart-body">
+              <canvas id="metricsChart" height="220"></canvas>
+            </div>
+          </div>
+
           <div id="incomeCard" class="section-card">
             <div class="card-header">
               <h2>Income Statement</h2>
@@ -68,10 +77,30 @@
             </div>
             <div id="balanceContent" class="card-body"></div>
           </div>
+
+          <div id="watchlistCard" class="section-card">
+            <div class="card-header">
+              <h2>Saved Watchlist</h2>
+            </div>
+            <div class="card-body" id="watchlistArea">
+              <div id="watchlistMessage" class="muted">Your saved tickers appear here after saving a ticker.</div>
+              <div id="watchlistGlide" class="glide hidden">
+                <div class="glide__track" data-glide-el="track">
+                  <ul class="glide__slides" id="watchlistSlides"></ul>
+                </div>
+                <div class="glide__arrows" data-glide-el="controls">
+                  <button class="glide__arrow glide__arrow--prev" data-glide-dir="<">Prev</button>
+                  <button class="glide__arrow glide__arrow--next" data-glide-dir=">">Next</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
       </main>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
     <script src="stocks.js"></script>
   </body>
 </html>

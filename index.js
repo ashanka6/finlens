@@ -4,10 +4,17 @@ const express = require('express');
 const cors = require('cors');
 const { createClient } = require('@supabase/supabase-js');
 const bodyParser = require('body-parser');
-const fetch = require('node-fetch'); // For server-side API calls
+let fetch = globalThis.fetch;
+try {
+  if (!fetch) {
+    fetch = require('node-fetch');
+  }
+} catch (err) {
+  // Node may already support global fetch; if not, ensure node-fetch is installed.
+}
 const app = express();
 const PORT = process.env.PORT || 5000;
-const dotenv = require('dotenv'); 
+const dotenv = require('dotenv');
 dotenv.config();
 // ==================== Middleware ====================
 app.use(cors({ origin: true, credentials: true }));
@@ -29,15 +36,17 @@ const supabase = createClient(
 
 // ==================== Helper: Call FMP API ====================
 const fetchFMP = async (endpoint) => {
-    const baseURL = 'https://financialmodelingprep.com/api/v3';
+    const baseURL = 'https://financialmodelingprep.com/stable';
     const separator = endpoint.includes('?') ? '&' : '?';
     const url = `${baseURL}${endpoint}${separator}apikey=${process.env.FMP_API_KEY}`;
-    
+
     const response = await fetch(url);
+    const payload = await response.json().catch(() => null);
     if (!response.ok) {
-        throw new Error(`FMP API error: ${response.status}`);
+        const message = payload?.error || payload?.message || response.statusText;
+        throw new Error(`FMP API error: ${response.status} ${message || 'Unknown error'}`);
     }
-    return response.json();
+    return payload;
 };
 
 // ==================== Routes ====================
@@ -49,9 +58,9 @@ app.get('/api/financials/:ticker', async (req, res) => {
 
     try {
         const [income, balance, ratios] = await Promise.all([
-            fetchFMP(`/income-statement/${upperTicker}?limit=5`),
-            fetchFMP(`/balance-sheet-statement/${upperTicker}?limit=5`),
-            fetchFMP(`/financial-ratios/${upperTicker}`)
+            fetchFMP(`/income-statement?symbol=${upperTicker}&limit=5`),
+            fetchFMP(`/balance-sheet-statement?symbol=${upperTicker}&limit=5`),
+            fetchFMP(`/ratios?symbol=${upperTicker}`)
         ]);
 
         res.json({
@@ -61,12 +70,26 @@ app.get('/api/financials/:ticker', async (req, res) => {
             financialRatios: ratios
         });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Failed to fetch financial data' });
+        console.error('Financials fetch failed:', error.message || error);
+        res.status(500).json({ error: 'Failed to fetch financial data', details: error.message });
     }
 });
 
-// 2. READ from Supabase: get a user's watchlist (tickers only)
+// 2. Get a real-time quote from the external provider
+app.get('/api/quote/:ticker', async (req, res) => {
+    const { ticker } = req.params;
+    const upperTicker = ticker.toUpperCase();
+
+    try {
+        const quotePayload = await fetchFMP(`/quote?symbol=${upperTicker}`);
+        res.json({ ticker: upperTicker, quote: quotePayload?.[0] || null });
+    } catch (error) {
+        console.error('Quote fetch failed:', error.message || error);
+        res.status(500).json({ error: 'Failed to fetch quote data', details: error.message });
+    }
+});
+
+// 3. READ from Supabase: get a user's watchlist (tickers only)
 app.get('/api/watchlist/:userId', async (req, res) => {
     const { userId } = req.params;
 

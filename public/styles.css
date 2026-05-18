@@ -284,6 +284,52 @@ body {
   }
 }
 
+.chart-body {
+  min-height: 260px;
+}
+
+.glide {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.glide__slide {
+  list-style: none;
+}
+
+.watchlist-item-card {
+  border-radius: 18px;
+  background-color: #eff8ff;
+  border: 1px solid rgba(59, 130, 246, 0.18);
+  padding: 1rem;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.glide__arrows {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.glide__arrow {
+  border: none;
+  border-radius: 999px;
+  background: #3c5cdf;
+  color: #fff;
+  padding: 0.85rem 1.2rem;
+  cursor: pointer;
+}
+
+.glide__arrow:hover {
+  background: #2f49b4;
+}
+
 @media (max-width: 700px) {
   .page-header {
     padding: 1rem 1rem;
