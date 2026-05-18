@@ -48,9 +48,9 @@ app.get('/api/v3/financials/:ticker', async (req, res) => {
 
     try {
         const [income, balance, ratios] = await Promise.all([
-            fetchFMP(`/income-statement?symbol=${upperTicker}&limit=5`),
-            fetchFMP(`/balance-sheet-statement?symbol=${upperTicker}&limit=5`),
-            fetchFMP(`/ratios?symbol=${upperTicker}`)
+            fetchFMP(`income-statement?symbol=${upperTicker}&limit=5`),
+            fetchFMP(`balance-sheet-statement?symbol=${upperTicker}&limit=5`),
+            fetchFMP(`ratios?symbol=${upperTicker}`)
         ]);
 
         res.json({
@@ -147,5 +147,5 @@ app.get('/api/v3/notes/:userId/:ticker', async (req, res) => {
     res.json(data?.[0] || { notes: '' });
 });
 
-module.exports = app;
+
 
