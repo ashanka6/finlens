@@ -8,8 +8,38 @@
   ],
   "routes": [
     {
-      "src": "/:path*",
+      "src": "/api/v3/financials/:ticker",
       "dest": "/index.js"
+    },
+    {
+      "src": "/api/v3/quote/:ticker",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/api/v3/watchlist/:userId",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/api/v3/watchlist",
+      "methods": ["POST"],
+      "dest": "/index.js"
+    },
+    {
+      "src": "/api/v3/watchlist/:entryId",
+      "methods": ["DELETE"],
+      "dest": "/index.js"
+    },
+    {
+      "src": "/api/v3/notes/:userId/:ticker",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/api/v3/health",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/",
+      "dest": "/home.html"
     }
   ]
 }
